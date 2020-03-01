@@ -1,0 +1,7 @@
+[uniprot]
+git-tree-sha1 = "4b825dc642cb6eb9a060e54bf8d69288fbee4904"
+lazy = true
+
+    [[uniprot.download]]
+    sha256 = "8a4ccc19bdf3c3c3230c1aebb97a1cd1a2e6edc668736f1529a5448e1fd0fe0f"
+    url = "ftp://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam32.0/database_files/uniprot.txt.gz`"
