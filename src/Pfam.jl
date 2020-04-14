@@ -1,5 +1,5 @@
 module Pfam
-    using DataDeps
+    #using DataDeps
 
     function __init__()
         pfam_db_deps = (
@@ -27,6 +27,6 @@ module Pfam
         end
     end
 
-    include("path.jl")
     include("msa.jl")
+    include("taxonomy.jl")
 end
