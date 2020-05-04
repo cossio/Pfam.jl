@@ -29,4 +29,5 @@ module Pfam
 
     include("msa.jl")
     include("taxonomy.jl")
+    include("util.jl")
 end
