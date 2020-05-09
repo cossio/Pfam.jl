@@ -29,5 +29,5 @@ module Pfam
 
     include("msa.jl")
     include("taxonomy.jl")
-    include("util.jl")
+    include("aa2int.jl")
 end

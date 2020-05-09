@@ -20,10 +20,7 @@ function LocalStore.save(obj::Taxonomy, dir::String)
 			id = rows[2]
 			if haskey(msa_ids, id)
 				@assert length(rows) == 22
-				#taxs = split(rows[10], "; ")
-				#msa_tax[msa_ids[id]] = taxs[level]
 				msa_tax[msa_ids[id]] = rows[10]
-				#split(rows[10], "; ")
 			end
 		end
 	end

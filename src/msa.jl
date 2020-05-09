@@ -1,5 +1,10 @@
 using DataFrames, FastaIO, CSV, CodecZlib, LocalStore, GZip
 
+"""
+	PfamId
+
+A Pfam id code.
+"""
 struct PfamId
 	id::String
 	function PfamId(id::String)
@@ -16,6 +21,11 @@ Base.convert(::Type{PfamId}, id::String) = PfamId(id)
 Base.convert(::Type{String}, id::PfamId) = id.id
 Base.print(io::IO, id::PfamId) = print(io, id.id)
 
+"""
+	MSA
+
+Describes parameters of an MSA.
+"""
 Base.@kwdef struct MSA
 	id::PfamId					# Pfam id (required)
 	aln::String = "full"		# -Full
@@ -26,6 +36,7 @@ Base.@kwdef struct MSA
 end
 MSA(id::String; kwargs...) = MSA(; id=id, kwargs...)
 
+# need to define for LocalStore
 function Base.hash(msa::MSA, h::UInt)
 	h = hash("Pfam.MSA", h)
 	for f in fieldnames(MSA)
@@ -61,6 +72,11 @@ function LocalStore.load(msa::MSA, dir::String)
 	return df
 end
 
+"""
+	load(msa)
+
+Loads an MSA.
+"""
 function load(msa::MSA;
 			  inserts::Bool = false,	# set to false to remove inserts
 			  taxonomy::Bool = false,	# set to true to add taxonomy column
@@ -74,6 +90,11 @@ function load(msa::MSA;
 	return df
 end
 
+"""
+	remove_inserts(sequence)
+
+Remove inserts from a string sequence.
+"""
 function remove_inserts(sequence::String)
 	filter(c -> c == '-' || c ≠ lowercase(c), sequence)
 end
