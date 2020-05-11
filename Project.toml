@@ -15,4 +15,12 @@ LocalStore = "7673ebd9-f02d-46dd-b879-08aafde2f01b"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 
 [compat]
-julia = "1.4"
+CSV = "^0.5"
+CodecZlib = "^0.6"
+DataDeps = "^0.7"
+DataFrames = "^0.20"
+FastaIO = "^1.0"
+GZip = "^0.5"
+HTTP = "^0.8"
+LocalStore = "^0.1"
+julia = "^1.4"
