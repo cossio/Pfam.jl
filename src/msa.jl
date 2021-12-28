@@ -58,7 +58,11 @@ end
 file(msa::MSA) = "pfam_$(msa.id).txt"
 
 function LocalStore.save(msa::MSA, dir::String)
-	Downloads.download(url(msa), joinpath(dir, file(msa)))
+    save_opt = get(ENV, "JULIA_NO_VERIFY_HOSTS", nothing)
+    ENV["JULIA_NO_VERIFY_HOSTS"] = "pfam.xfam.org"
+	out = Downloads.download(url(msa), joinpath(dir, file(msa)))
+    ENV["JULIA_NO_VERIFY_HOSTS"] = save_opt
+    return out
 end
 
 function LocalStore.load(msa::MSA, dir::String)
