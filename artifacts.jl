@@ -1,6 +1,6 @@
 #= Code to populate Artifacts.toml. This file is only used in development. =#
 
-using Pkg.Artifacts, SHA
+using Pkg.Artifacts, SHA, Downloads
 
 """
     artifact_pfamdb_file(name)
@@ -23,8 +23,6 @@ end
 
 artifact_pfamdb_file("uniprot")
 artifact_pfamdb_file("pfamseq")
-
-
 
 #=
     md5 checksums of database files

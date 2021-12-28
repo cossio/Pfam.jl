@@ -1,4 +1,4 @@
-using DataFrames, FastaIO, CSV, CodecZlib, LocalStore, GZip
+using DataFrames, FastaIO, CSV, CodecZlib, LocalStore, GZip, Downloads
 
 """
 	PfamId
@@ -58,7 +58,7 @@ end
 file(msa::MSA) = "pfam_$(msa.id).txt"
 
 function LocalStore.save(msa::MSA, dir::String)
-	download(url(msa), joinpath(dir, file(msa)))
+	Downloads.download(url(msa), joinpath(dir, file(msa)))
 end
 
 function LocalStore.load(msa::MSA, dir::String)
