@@ -1,5 +1,6 @@
 module Pfam
     using Scratch
+    using DataFrames, FastaIO, CSV, CodecZlib, LocalStore, GZip, Downloads
 
     download_cache = "" # handled by Scratch
 

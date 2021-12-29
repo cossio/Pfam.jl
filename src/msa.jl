@@ -1,5 +1,3 @@
-using DataFrames, FastaIO, CSV, CodecZlib, LocalStore, GZip, Downloads
-
 """
 	MSA
 
