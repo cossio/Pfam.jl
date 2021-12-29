@@ -14,6 +14,7 @@ GZip = "92fee26a-97fe-5a0c-ad85-20a5f3185b63"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 LocalStore = "7673ebd9-f02d-46dd-b879-08aafde2f01b"
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+Scratch = "6c6a2e73-6563-6170-7368-637461726353"
 
 [compat]
 CSV = "0.9"

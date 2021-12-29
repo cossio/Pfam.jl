@@ -1,7 +1,14 @@
 module Pfam
+    using Scratch
+
+    download_cache = "" # handled by Scratch
+
     #using DataDeps
 
     function __init__()
+        global download_cache = @get_scratch!("pfam")
+
+
         pfam_db_deps = (
             ("uniprot", "0520f46b4788a41797fd688d76c0fc9ec4d98869ed7cc9543c83b49abf90272a"),
             ("pfamseq", "f15353053f4aeb7a3afa1d8ca720d33497c343d6b301ecdf149e2864a7703d04"),

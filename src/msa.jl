@@ -1,40 +1,33 @@
 using DataFrames, FastaIO, CSV, CodecZlib, LocalStore, GZip, Downloads
 
 """
-	PfamId
-
-A Pfam id code.
-"""
-struct PfamId
-	id::String
-	function PfamId(id::String)
-		if occursin(r"^PF\d{5}$"i, id)
-			new(id)
-		else
-			error("$id is not a correct Pfam code")
-		end
-	end
-end
-
-Base.hash(id::PfamId, h::UInt) = hash("Pfam.PfamId", hash(id.id, h))
-Base.convert(::Type{PfamId}, id::String) = PfamId(id)
-Base.convert(::Type{String}, id::PfamId) = id.id
-Base.print(io::IO, id::PfamId) = print(io, id.id)
-
-"""
 	MSA
 
 Describes parameters of an MSA.
 """
 Base.@kwdef struct MSA
-	id::PfamId					# Pfam id (required)
+	id::String					# Pfam id (required)
 	aln::String = "full"		# -Full
 	format::String = "fasta"	# -Format:FASTA
 	order::String = "t"			# -Order:Tree
 	case::String = "l"			# -Sequence:Inserts lower case
 	gaps::String = "default"	# -Gaps:Gaps as "." or "-"(mixed)
+
+    function MSA(
+        id::String, aln::String, format::String, order::String, case::String, gaps::String
+    )
+        if !is_valid_pfam_id(id)
+            error("$id is not a valid Pfam code")
+        end
+        return new(id, aln, format, order, case, gaps)
+    end
 end
+
 MSA(id::String; kwargs...) = MSA(; id=id, kwargs...)
+
+function is_valid_pfam_id(id::String)
+    return occursin(r"^PF\d{5}$"i, id)
+end
 
 # need to define for LocalStore
 function Base.hash(msa::MSA, h::UInt)
@@ -81,10 +74,11 @@ end
 
 Loads an MSA.
 """
-function load(msa::MSA;
-			  inserts::Bool = false,	# set to false to remove inserts
-			  taxonomy::Bool = false,	# set to true to add taxonomy column
-			  missings::Bool = false)	# set to false to remove rows with missings
+function load(
+    msa::MSA;
+	inserts::Bool = false,	# set to false to remove inserts
+    taxonomy::Bool = false,	# set to true to add taxonomy column
+)
 	df = LocalStore.load(msa)
 	inserts || (df.sequence = remove_inserts.(df.sequence))
 	if taxonomy
