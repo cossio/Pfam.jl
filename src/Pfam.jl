@@ -1,14 +1,25 @@
 module Pfam
-    using Scratch
-    using DataFrames, FastaIO, CSV, CodecZlib, LocalStore, GZip, Downloads
+    using Scratch, Downloads
+    using DataDeps, DataFrames, FastaIO, CSV, CodecZlib, GZip
 
-    download_cache = "" # handled by Scratch
-
-    #using DataDeps
+    pfam_msa_scratch = ""
 
     function __init__()
-        global download_cache = @get_scratch!("pfam")
+        #= Use a Scratch-space to store downloaded MSAs. =#
+        global pfam_msa_scratch = @get_scratch!("pfam_msa")
 
+        #= PFAM has expired certificates. So we need this or `download` will fail. =#
+        if haskey(ENV, "JULIA_NO_VERIFY_HOSTS")
+            ENV["JULIA_NO_VERIFY_HOSTS"] *= ",pfam.xfam.org"
+        else
+            ENV["JULIA_NO_VERIFY_HOSTS"] = "pfam.xfam.org"
+        end
+
+        #= DataDeps by default displays a prompt asking for the user to accept the download.
+        This setting disables the prompt, which can be annoying in automated settings. =#
+        ENV["DATADEPS_ALWAYS_ACCEPT"] = "true"
+
+        #= Register DataDeps =#
 
         pfam_db_deps = (
             ("uniprot", "0520f46b4788a41797fd688d76c0fc9ec4d98869ed7cc9543c83b49abf90272a"),

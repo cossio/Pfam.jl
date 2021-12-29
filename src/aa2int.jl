@@ -1,5 +1,3 @@
-export aa2int
-
 """
     aa2int(char)
 

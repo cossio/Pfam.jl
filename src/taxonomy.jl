@@ -1,36 +1,33 @@
-using LocalStore, DataDeps
-using Pkg.Artifacts
+taxonomy_path(msa::MSA) = path(msa) * "_taxonomy"
 
-struct Taxonomy
-	msa::MSA
+function load_with_taxonomy(msa::MSA)
+    if !isfile(taxonomy_path(msa))
+        df = load(msa)
+        tax = get_taxonomies(df.uniprot_id)
+        dftax = DataFrame(uniprot_id = df.uniprot_id, taxonomy = tax)
+        CSV.write(taxonomy_path(msa), dftax)
+    end
+    return CSV.read(taxonomy_path(msa))
 end
 
-Base.hash(tax::Taxonomy, h::UInt) = hash("Pfam.Taxonomy", hash(tax.msa, h))
-file(tax::Taxonomy) = "pfam_$(tax.msa.id)_taxonomy.txt"
-
-function LocalStore.save(obj::Taxonomy, dir::String)
-	df = LocalStore.load(obj.msa)
-	msa_ids = Dict(id => k for (k, id) in enumerate(df.uniprot_id))
-	msa_tax = Array{Union{Missing,String}}(missing, size(df, 1))
-	msa_tax .= missing
-	open(datadep"uniprot/uniprot.txt.gz") do io
-		gzip = GzipDecompressorStream(io)
-		for line in eachline(gzip)
-			rows = split(line, "\t")
-			id = rows[2]
-			if haskey(msa_ids, id)
-				@assert length(rows) == 22
-				msa_tax[msa_ids[id]] = rows[10]
-			end
-		end
-	end
-	dftax = DataFrame(uniprot_id = df.uniprot_id, taxonomy = msa_tax)
-	CSV.write(joinpath(dir, file(obj)), dftax)
+function get_taxonomies(uniprot_ids::AbstractVector{String})
+    idx = Dict(id => k for (k, id) in enumerate(uniprot_ids))
+    tax = Vector{Union{Missing,String}}(undef, length(uniprot_ids))
+    tax .= missing
+    open(datadep"uniprot/uniprot.txt.gz") do io
+        gzip = GzipDecompressorStream(io)
+        for line in eachline(gzip)
+            rows = split(line, "\t")
+            id = rows[2]
+            if haskey(idx, id)
+                @assert length(rows) == 22
+                tax[idx[id]] = rows[10]
+            end
+        end
+    end
+    return tax
 end
 
-function LocalStore.load(obj::Taxonomy, dir::String)
-	CSV.read(joinpath(dir, file(obj)))
-end
 #
 # function uniprot_headers()
 # 	headers = [
