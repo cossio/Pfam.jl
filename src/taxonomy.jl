@@ -7,7 +7,7 @@ function load_with_taxonomy(msa::MSA)
         dftax = DataFrame(uniprot_id = df.uniprot_id, taxonomy = tax)
         CSV.write(taxonomy_path(msa), dftax)
     end
-    return CSV.read(taxonomy_path(msa))
+    return CSV.read(taxonomy_path(msa), DataFrame)
 end
 
 function get_taxonomies(uniprot_ids::AbstractVector{String})
