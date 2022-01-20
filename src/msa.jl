@@ -55,7 +55,11 @@ path(msa::MSA) = joinpath(pfam_msa_scratch, file(msa))
 
 function download(msa::MSA)
     @info "Downloading $(msa.id)"
-    Downloads.download(url(msa), path(msa))
+    #= PFAM has expired certificates. So we need this or `download` will fail.
+    TODO: check if the certificates at PFAM got fixed =#
+    withenv("JULIA_NO_VERIFY_HOSTS" => "pfam.xfam.org", ENV...) do
+        Downloads.download(url(msa), path(msa))
+    end
 end
 
 """

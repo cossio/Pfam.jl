@@ -8,15 +8,9 @@ module Pfam
         #= Use a Scratch-space to store downloaded MSAs. =#
         global pfam_msa_scratch = @get_scratch!("pfam_msa")
 
-        #= PFAM has expired certificates. So we need this or `download` will fail. =#
-        if haskey(ENV, "JULIA_NO_VERIFY_HOSTS")
-            ENV["JULIA_NO_VERIFY_HOSTS"] *= ",pfam.xfam.org"
-        else
-            ENV["JULIA_NO_VERIFY_HOSTS"] = "pfam.xfam.org"
-        end
-
         #= DataDeps by default displays a prompt asking for the user to accept the download.
         This setting disables the prompt, which can be annoying in automated settings. =#
+        # TODO: consider using `withenv`
         ENV["DATADEPS_ALWAYS_ACCEPT"] = "true"
 
         #= Register DataDeps =#
