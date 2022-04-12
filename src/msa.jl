@@ -58,7 +58,7 @@ function download(msa::MSA)
     #= PFAM has expired certificates. So we need this or `download` will fail.
     TODO: check if the certificates at PFAM got fixed =#
     withenv("JULIA_NO_VERIFY_HOSTS" => "pfam.xfam.org", ENV...) do
-        Downloads.download(url(msa), path(msa))
+        Downloads.download(url(msa), path(msa); timeout = Inf)
     end
 end
 
