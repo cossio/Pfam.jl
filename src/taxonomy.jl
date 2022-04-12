@@ -12,8 +12,7 @@ end
 
 function get_taxonomies(uniprot_ids::AbstractVector{String})
     idx = Dict(id => k for (k, id) in enumerate(uniprot_ids))
-    tax = Vector{Union{Missing,String}}(undef, length(uniprot_ids))
-    tax .= missing
+    tax = Vector{Union{Missing,String}}(missing, length(uniprot_ids))
     open(datadep"uniprot/uniprot.txt.gz") do io
         gzip = GzipDecompressorStream(io)
         for line in eachline(gzip)
