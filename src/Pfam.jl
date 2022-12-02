@@ -40,17 +40,6 @@ pdbmap(; dir::AbstractString=PFAM_DIR, version::AbstractString=PFAM_VERSION) = l
     return local_path
 end
 
-uniprot(; dir::AbstractString=PFAM_DIR, version::AbstractString=PFAM_VERSION) = lock(PFAM_LOCK) do
-    local_path = joinpath(version_dir(; dir, version), "uniprot")
-    if !isfile(local_path)
-        @info "Downloading pdbmap to $local_path ..."
-        pfam_base_url = base_url(; version)
-        download("$pfam_base_url/uniprot.gz", "$local_path.gz"; timeout = Inf)
-        gunzip("$local_path.gz")
-    end
-    return local_path
-end
-
 Pfam_A_hmm_dat(; dir::AbstractString=PFAM_DIR, version::AbstractString=PFAM_VERSION) = lock(PFAM_LOCK) do
     local_path = joinpath(version_dir(; dir, version), "Pfam-A.hmm.dat")
     if !isfile(local_path)
@@ -90,6 +79,17 @@ Pfam_A_full(; dir::AbstractString=PFAM_DIR, version::AbstractString=PFAM_VERSION
         @info "Downloading pdbmap to $local_path ..."
         pfam_base_url = base_url(; version)
         download("$pfam_base_url/Pfam-A.full.gz", "$local_path.gz"; timeout = Inf)
+        gunzip("$local_path.gz")
+    end
+    return local_path
+end
+
+uniprot(; dir::AbstractString=PFAM_DIR, version::AbstractString=PFAM_VERSION) = lock(PFAM_LOCK) do
+    local_path = joinpath(version_dir(; dir, version), "uniprot")
+    if !isfile(local_path)
+        @info "Downloading pdbmap to $local_path ..."
+        pfam_base_url = base_url(; version)
+        download("$pfam_base_url/uniprot.gz", "$local_path.gz"; timeout = Inf)
         gunzip("$local_path.gz")
     end
     return local_path

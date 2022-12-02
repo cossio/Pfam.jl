@@ -3,10 +3,9 @@
 ![](https://github.com/cossio/Pfam.jl/workflows/CI/badge.svg)
 [![codecov](https://codecov.io/gh/cossio/Pfam.jl/branch/master/graph/badge.svg?token=HL6RUVR384)](https://codecov.io/gh/cossio/Pfam.jl)
 
-Julia package to interact with the Pfam database.
+Julia package to download files from [Pfam](https://www.ebi.ac.uk/interpro/entry/pfam/).
 
 ```julia
-using Pfam
-msa = Pfam.MSA("PF00011")  # describe the requested MSA
-df = Pfam.load(msa) # load as a DataFrame
+import Pfam
+file_path = Pfam.pdbmap() # returns path to pdbmap file containing mapping between PFAM families and PDB structures
 ```
