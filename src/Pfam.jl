@@ -13,8 +13,17 @@ const PFAM_LOCK = ReentrantLock()
 const PFAM_DIR = @load_preference("PFAM_DIR")
 const PFAM_VERSION = @load_preference("PFAM_VERSION")
 
-isnothing(PFAM_DIR) && @debug "PFAM_DIR not set; use `Pfam.set_pfam_directory` and restart Julia"
-isnothing(PFAM_VERSION) && @debug "RFAM_VERSION not set; use `Pfam.set_pfam_version` and restart Julia"
+if isnothing(PFAM_DIR)
+    @warn """PFAM_DIR not set; use `set_pfam_directory` and restart Julia.
+    Otherwise you will need to pass a `dir` option to every function.
+    """
+end
+
+if isnothing(PFAM_VERSION)
+    @warn """PFAM_VERSION not set; use `set_pfam_version` and restart Julia.
+    Otherwise you will need to pass a `version` option to every function.
+    """
+end
 
 function set_pfam_directory(dir::AbstractString)
     @set_preferences!("PFAM_DIR" => dir)
@@ -79,6 +88,17 @@ Pfam_A_full(; dir::AbstractString=PFAM_DIR, version::AbstractString=PFAM_VERSION
         @info "Downloading pdbmap to $local_path ..."
         pfam_base_url = base_url(; version)
         download("$pfam_base_url/Pfam-A.full.gz", "$local_path.gz"; timeout = Inf)
+        gunzip("$local_path.gz")
+    end
+    return local_path
+end
+
+pfamseq(; dir::AbstractString=PFAM_DIR, version::AbstractString=PFAM_VERSION) = lock(PFAM_LOCK) do
+    local_path = joinpath(version_dir(; dir, version), "pfamseq")
+    if !isfile(local_path)
+        @info "Downloading pdbmap to $local_path ..."
+        pfam_base_url = base_url(; version)
+        download("$pfam_base_url/pfamseq.gz", "$local_path.gz"; timeout = Inf)
         gunzip("$local_path.gz")
     end
     return local_path
