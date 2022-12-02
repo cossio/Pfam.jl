@@ -1,3 +1,8 @@
-using SafeTestsets
+using Test: @test
+import Pfam
 
-@safetestset "PF00011" begin include("PF00011.jl") end
+dir = mktempdir()
+version = "35.0"
+
+Pfam_hmm = Pfam.Pfam_A_hmm(; dir, version)
+@test isfile(Pfam_hmm)
