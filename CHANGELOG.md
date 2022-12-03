@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. The format 
 ## v1.0.0
 
 - Release v1.0.0.
+- No breaking changes, but I wanted v1.0.
 
 ## [v0.3.0]
 
