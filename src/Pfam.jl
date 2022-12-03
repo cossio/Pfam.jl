@@ -3,8 +3,6 @@ module Pfam
 using Downloads: download
 using Preferences: @set_preferences!, @load_preference
 import Gzip_jll
-using MD5: md5
-using DelimitedFiles: readdlm
 using ProgressMeter: ProgressUnknown, update!
 
 # make loading Pfam files thread-safe

@@ -11,6 +11,9 @@ All notable changes to this project will be documented in this file. The format 
 ## [v0.3.0]
 
 - BREAKING: This package now only downloads and returns paths to files, without processing. Similar to Rfam.jl.
-- Use new location https://www.ebi.ac.uk/interpro/entry/pfam/, https://ftp.ebi.ac.uk/pub/databases/Pfam/.
+- Use new URLs https://www.ebi.ac.uk/interpro/entry/pfam/, https://ftp.ebi.ac.uk/pub/databases/Pfam/.
+- Use Preferences to set local directory path and PFAM version.
+- Download prints progress in bytes downloaded.
+- `alignment_file` function to download individual family alignments.
 
 ## [v0.2.3]
