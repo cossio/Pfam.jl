@@ -1,8 +1,6 @@
 {
 	"image": "mcr.microsoft.com/devcontainers/universal:2",
 	"features": {
-		"ghcr.io/eitsupi/devcontainer-features/julia:0": {
-			"version": "latest"
-		}
+		"ghcr.io/julialang/devcontainer-features/julia": {}
 	}
 }
