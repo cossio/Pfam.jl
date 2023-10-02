@@ -2,7 +2,7 @@
 function set_pfam_directory(dir)
     if isdir(dir)
         @set_preferences!("PFAM_DIR" => dir)
-        @info "PFAM directory $dir set; restart Julia for this change to take effect."
+        @info "PFAM directory $dir set."
     else
         throw(ArgumentError("Invalid directory path: $dir"))
     end
@@ -20,7 +20,7 @@ end
 # Define verison of Pfam to use
 function set_pfam_version(version)
     @set_preferences!("PFAM_VERSION" => version)
-    @info "Pfam version $version set; restart Julia for this change to take effect."
+    @info "Pfam version $version set."
 end
 
 function get_pfam_version()
