@@ -4,3 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      all-deps: # group ALL in one PR
+        patterns:
+          - "*"
