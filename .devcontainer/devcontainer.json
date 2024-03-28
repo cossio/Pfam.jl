@@ -11,11 +11,8 @@
 		"vscode": {
 			"extensions": [
 				"github.vscode-github-actions",
-				"ms-toolsai.jupyter",
 				"tamasfe.even-better-toml",
-				"julialang.language-julia",
-				"tomoki1207.pdf",
-				"mechatroner.rainbow-csv"
+				"julialang.language-julia"
 			]
 		}
 	},
