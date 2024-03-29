@@ -1,7 +1,7 @@
 name = "Pfam"
 uuid = "275cd14a-065f-44bb-ab7a-e1328a0f1819"
 authors = ["Jorge Fernandez-de-Cossio-Diaz <j.cossio.diaz@gmail.com>"]
-version = "2.0.2-DEV"
+version = "2.1.0"
 
 [deps]
 Downloads = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
@@ -10,8 +10,8 @@ Preferences = "21216c6a-2e73-6563-6e65-726566657250"
 ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
 
 [compat]
-Downloads = "1"
-Gzip_jll = "1"
-Preferences = "1"
-ProgressMeter = "1"
-julia = "1.6"
+Downloads = "1.6.0"
+Gzip_jll = "1.13.0"
+Preferences = "1.4.3"
+ProgressMeter = "1.10.0"
+julia = "1.10"

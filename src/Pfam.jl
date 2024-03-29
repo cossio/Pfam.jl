@@ -2,8 +2,10 @@ module Pfam
 
 import Gzip_jll
 using Downloads: download
-using Preferences: @set_preferences!, @load_preference
-using ProgressMeter: ProgressUnknown, update!
+using Preferences: @load_preference
+using Preferences: @set_preferences!
+using ProgressMeter: ProgressUnknown
+using ProgressMeter: update!
 
 # make loading Pfam files thread-safe
 const PFAM_LOCK = ReentrantLock()
