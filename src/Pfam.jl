@@ -117,7 +117,7 @@ alignment_file(id, which=:full) = lock(PFAM_LOCK) do
     local_path = joinpath(alignment_files_dir(), "$id.alignment.$which.stk")
     if !isfile(local_path)
         @info "Downloading to $local_path ..."
-        url = "https://www.ebi.ac.uk/interpro/wwwapi//entry/pfam/$id/?annotation=alignment:$which&download"
+        url = "https://www.ebi.ac.uk/interpro/wwwapi/entry/pfam/$id/?annotation=alignment:$which&download"
         download_progress(url, "$local_path.gz")
         gunzip("$local_path.gz")
     end
