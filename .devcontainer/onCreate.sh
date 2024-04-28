@@ -15,4 +15,4 @@ echo "autoload -U compinit" >> ~/.zshrc
 echo "compinit -i" >> ~/.zshrc
 
 # directory to store Rfam data (set in LocalPreferences.toml)
-mkdir -p ~/data/Rfam
+mkdir -p ~/data/Pfam

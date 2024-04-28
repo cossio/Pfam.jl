@@ -1,10 +1,19 @@
 {
 	"image": "mcr.microsoft.com/devcontainers/base:ubuntu",
 	"features": {
-		"ghcr.io/devcontainers/features/github-cli:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {
+			"installDirectlyFromGitHubRelease": true,
+			"version": "latest"
+		},
 		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installZsh": true,
 			"configureZshAsDefaultShell": true,
-			"nonFreePackages": true
+			"installOhMyZsh": true,
+			"installOhMyZshConfig": true,
+			"upgradePackages": true,
+			"username": "automatic",
+			"userUid": "automatic",
+			"userGid": "automatic"
 		}
 	},
 	"customizations": {
