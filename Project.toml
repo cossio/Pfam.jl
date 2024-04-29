@@ -1,5 +1,5 @@
-name = "PfamTaxonomies"
-uuid = "01f5ecb7-3f59-4d31-9964-d4742b592343"
+name = "Pfam"
+uuid = "275cd14a-065f-44bb-ab7a-e1328a0f1819"
 authors = ["Jorge Fernandez-de-Cossio-Diaz <j.cossio.diaz@gmail.com>"]
 version = "2.1.1-DEV"
 
