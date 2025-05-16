@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. The format 
 
 ## Unreleased
 
+## 2.2.0 - Unreleased
+
+- Add keyword arguments for `pfam_version` and `pfam_dir` to most functions. This allows to use the package without setting preferences.
+
+## 2.0.0
+
 ### Breaking changes
 
 - Remove `PFAM_DIR`, `PFAM_VERSION`. Now preferences are set with `set_pfam_directory` and `set_pfam_version`, without having to restart Julia. They can be read with `get_pfam_directory` and `get_pfam_version`.

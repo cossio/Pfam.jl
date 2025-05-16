@@ -125,8 +125,8 @@ end
 
 Download an alignment file in Pfam Stockholm format. `which` can be one of: `:full` (default), `:seed`, or `:uniprot`.
 """
-function alignment_file(id, which=:full; pfam_dir = get_pfam_directory(), pfam_version = get_pfam_version())
-    local_path = joinpath(alignment_files_dir(; pfam_dir, pfam_version), "$id.alignment.$which.stk")
+function alignment_file(id, which=:full; pfam_dir = get_pfam_directory())
+    local_path = joinpath(alignment_files_dir(; pfam_dir), "$id.alignment.$which.stk")
     lock(PFAM_LOCK) do
         if !isfile(local_path)
             @info "Downloading to $local_path ..."
