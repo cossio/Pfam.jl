@@ -12,98 +12,110 @@ const PFAM_LOCK = ReentrantLock()
 
 include("preferences.jl")
 
-function base_url()
-    version = get_pfam_version()
-    return "https://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam$version"
+function base_url(; pfam_version = get_pfam_version())
+    return "https://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam$pfam_version"
 end
 
-function version_dir()
-    pfam_dir = get_pfam_directory()
-    version = get_pfam_version()
-    return mkpath(joinpath(pfam_dir, version))
+function version_dir(; pfam_dir = get_pfam_directory(), pfam_version = get_pfam_version())
+    return mkpath(joinpath(pfam_dir, pfam_version))
 end
 
-function alignment_files_dir()
-    pfam_dir = get_pfam_directory()
+function alignment_files_dir(; pfam_dir = get_pfam_directory())
     return mkpath(joinpath(pfam_dir, "alignment_files"))
 end
 
-pdbmap() = lock(PFAM_LOCK) do
-    local_path = joinpath(version_dir(), "pdbmap")
-    if !isfile(local_path)
-        @info "Downloading to $local_path ..."
-        download_progress("$(base_url())/pdbmap.gz", "$local_path.gz")
-        gunzip("$local_path.gz")
+function pdbmap(; pfam_dir = get_pfam_directory(), pfam_version = get_pfam_version())
+    local_path = joinpath(version_dir(; pfam_dir, pfam_version), "pdbmap")
+    lock(PFAM_LOCK) do
+        if !isfile(local_path)
+            @info "Downloading to $local_path ..."
+            download_progress("$(base_url(; pfam_version))/pdbmap.gz", "$local_path.gz")
+            gunzip("$local_path.gz")
+        end
     end
     return local_path
 end
 
-Pfam_A_hmm_dat() = lock(PFAM_LOCK) do
-    local_path = joinpath(version_dir(), "Pfam-A.hmm.dat")
-    if !isfile(local_path)
-        @info "Downloading to $local_path ..."
-        download_progress("$(base_url())/Pfam-A.hmm.dat.gz", "$local_path.gz")
-        gunzip("$local_path.gz")
+function Pfam_A_hmm_dat(; pfam_dir = get_pfam_directory(), pfam_version = get_pfam_version())
+    local_path = joinpath(version_dir(; pfam_dir, pfam_version), "Pfam-A.hmm.dat")
+    lock(PFAM_LOCK) do
+        if !isfile(local_path)
+            @info "Downloading to $local_path ..."
+            download_progress("$(base_url(; pfam_version))/Pfam-A.hmm.dat.gz", "$local_path.gz")
+            gunzip("$local_path.gz")
+        end
     end
     return local_path
 end
 
-Pfam_A_hmm() = lock(PFAM_LOCK) do
-    local_path = joinpath(version_dir(), "Pfam-A.hmm")
-    if !isfile(local_path)
-        @info "Downloading pdbmap to $local_path ..."
-        download_progress("$(base_url())/Pfam-A.hmm.gz", "$local_path.gz")
-        gunzip("$local_path.gz")
+function Pfam_A_hmm(; pfam_dir = get_pfam_directory(), pfam_version = get_pfam_version())
+    local_path = joinpath(version_dir(; pfam_dir, pfam_version), "Pfam-A.hmm")
+    lock(PFAM_LOCK) do
+        if !isfile(local_path)
+            @info "Downloading pdbmap to $local_path ..."
+            download_progress("$(base_url(; pfam_version))/Pfam-A.hmm.gz", "$local_path.gz")
+            gunzip("$local_path.gz")
+        end
     end
     return local_path
 end
 
-Pfam_A_seed() = lock(PFAM_LOCK) do
-    local_path = joinpath(version_dir(), "Pfam-A.seed")
-    if !isfile(local_path)
-        @info "Downloading pdbmap to $local_path ..."
-        download_progress("$(base_url())/Pfam-A.seed.gz", "$local_path.gz")
-        gunzip("$local_path.gz")
+function Pfam_A_seed(; pfam_dir = get_pfam_directory(), pfam_version = get_pfam_version())
+    local_path = joinpath(version_dir(; pfam_dir, pfam_version), "Pfam-A.seed")
+    lock(PFAM_LOCK) do
+        if !isfile(local_path)
+            @info "Downloading pdbmap to $local_path ..."
+            download_progress("$(base_url(; pfam_version))/Pfam-A.seed.gz", "$local_path.gz")
+            gunzip("$local_path.gz")
+        end
     end
     return local_path
 end
 
-Pfam_A_full() = lock(PFAM_LOCK) do
-    local_path = joinpath(version_dir(), "Pfam-A.full")
-    if !isfile(local_path)
-        @info "Downloading pdbmap to $local_path ..."
-        download_progress("$(base_url())/Pfam-A.full.gz", "$local_path.gz")
-        gunzip("$local_path.gz")
+function Pfam_A_full(; pfam_dir = get_pfam_directory(), pfam_version = get_pfam_version())
+    local_path = joinpath(version_dir(; pfam_dir, pfam_version), "Pfam-A.full")
+    lock(PFAM_LOCK) do
+        if !isfile(local_path)
+            @info "Downloading pdbmap to $local_path ..."
+            download_progress("$(base_url(; pfam_version))/Pfam-A.full.gz", "$local_path.gz")
+            gunzip("$local_path.gz")
+        end
     end
     return local_path
 end
 
-Pfam_A_fasta() = lock(PFAM_LOCK) do
-    local_path = joinpath(version_dir(), "Pfam-A.fasta")
-    if !isfile(local_path)
-        @info "Downloading pdbmap to $local_path ..."
-        download_progress("$(base_url())/Pfam-A.fasta.gz", "$local_path.gz")
-        gunzip("$local_path.gz")
+function Pfam_A_fasta(; pfam_dir = get_pfam_directory(), pfam_version = get_pfam_version())
+    local_path = joinpath(version_dir(; pfam_dir, pfam_version), "Pfam-A.fasta")
+    lock(PFAM_LOCK) do
+        if !isfile(local_path)
+            @info "Downloading pdbmap to $local_path ..."
+            download_progress("$(base_url(; pfam_version))/Pfam-A.fasta.gz", "$local_path.gz")
+            gunzip("$local_path.gz")
+        end
     end
     return local_path
 end
 
-pfamseq() = lock(PFAM_LOCK) do
-    local_path = joinpath(version_dir(), "pfamseq")
-    if !isfile(local_path)
-        @info "Downloading pfamseq to $local_path ..."
-        download_progress("$(base_url())/pfamseq.gz", "$local_path.gz")
-        gunzip("$local_path.gz")
+function pfamseq(; pfam_dir = get_pfam_directory(), pfam_version = get_pfam_version())
+    local_path = joinpath(version_dir(; pfam_dir, pfam_version), "pfamseq")
+    lock(PFAM_LOCK) do
+        if !isfile(local_path)
+            @info "Downloading pfamseq to $local_path ..."
+            download_progress("$(base_url(; pfam_version))/pfamseq.gz", "$local_path.gz")
+            gunzip("$local_path.gz")
+        end
     end
     return local_path
 end
 
-uniprot() = lock(PFAM_LOCK) do
-    local_path = joinpath(version_dir(), "uniprot")
-    if !isfile(local_path)
-        @info "Downloading to $local_path ..."
-        download_progress("$(base_url())/uniprot.gz", "$local_path.gz")
-        gunzip("$local_path.gz")
+function uniprot(; pfam_dir = get_pfam_directory(), pfam_version = get_pfam_version())
+    local_path = joinpath(version_dir(; pfam_dir, pfam_version), "uniprot")
+    lock(PFAM_LOCK) do
+        if !isfile(local_path)
+            @info "Downloading to $local_path ..."
+            download_progress("$(base_url(; pfam_version))/uniprot.gz", "$local_path.gz")
+            gunzip("$local_path.gz")
+        end
     end
     return local_path
 end
@@ -113,13 +125,15 @@ end
 
 Download an alignment file in Pfam Stockholm format. `which` can be one of: `:full` (default), `:seed`, or `:uniprot`.
 """
-alignment_file(id, which=:full) = lock(PFAM_LOCK) do
-    local_path = joinpath(alignment_files_dir(), "$id.alignment.$which.stk")
-    if !isfile(local_path)
-        @info "Downloading to $local_path ..."
-        url = "https://www.ebi.ac.uk/interpro/wwwapi/entry/pfam/$id/?annotation=alignment:$which&download"
-        download_progress(url, "$local_path.gz")
-        gunzip("$local_path.gz")
+function alignment_file(id, which=:full; pfam_dir = get_pfam_directory(), pfam_version = get_pfam_version())
+    local_path = joinpath(alignment_files_dir(; pfam_dir, pfam_version), "$id.alignment.$which.stk")
+    lock(PFAM_LOCK) do
+        if !isfile(local_path)
+            @info "Downloading to $local_path ..."
+            url = "https://www.ebi.ac.uk/interpro/wwwapi/entry/pfam/$id/?annotation=alignment:$which&download"
+            download_progress(url, "$local_path.gz")
+            gunzip("$local_path.gz")
+        end
     end
     return local_path
 end
