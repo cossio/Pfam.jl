@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ## Unreleased
 
-## 2.2.0 - Unreleased
+## 2.2.0
 
 - Add keyword arguments for `pfam_version` and `pfam_dir` to most functions. This allows to use the package without setting preferences.
 
