@@ -1,7 +1,10 @@
+const PFAM_DIR_KEY = "PFAM_DIR"
+const PFAM_VERSION_KEY = "PFAM_VERSION"
+
 # Stores downloaded Pfam files
 function set_pfam_directory(dir)
     if isdir(dir)
-        @set_preferences!("PFAM_DIR" => dir)
+        @set_preferences!(PFAM_DIR_KEY => dir)
         @info "PFAM directory $dir set."
     else
         throw(ArgumentError("Invalid directory path: $dir"))
@@ -9,9 +12,9 @@ function set_pfam_directory(dir)
 end
 
 function get_pfam_directory()
-    dir = @load_preference("PFAM_DIR")
+    dir = @load_preference(PFAM_DIR_KEY)
     if isnothing(dir)
-        error("PFAM_DIR not set; use `set_pfam_directory` to set it")
+        error("$PFAM_DIR_KEY not set; use `set_pfam_directory` to set it")
     else
         return dir
     end
@@ -19,14 +22,14 @@ end
 
 # Define verison of Pfam to use
 function set_pfam_version(version)
-    @set_preferences!("PFAM_VERSION" => version)
+    @set_preferences!(PFAM_VERSION_KEY => version)
     @info "Pfam version $version set."
 end
 
 function get_pfam_version()
-    version = @load_preference("PFAM_VERSION")
+    version = @load_preference(PFAM_VERSION_KEY)
     if isnothing(version)
-        error("PFAM_VERSION not set; use `set_pfam_version` to set it")
+        error("$PFAM_VERSION_KEY not set; use `set_pfam_version` to set it")
     else
         return version
     end
