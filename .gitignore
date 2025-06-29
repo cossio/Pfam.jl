@@ -11,3 +11,4 @@ deps/src/
 docs/build/
 docs/site/
 .DS_Store
+LocalPreferences.toml
