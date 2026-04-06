@@ -8,14 +8,14 @@ const gunzip_calls_ref = Ref(String[])
 function mock_download_helpers!()
     @eval Pfam begin
         function download_progress(url, path; timeout = Inf)
-            push!($download_calls_ref[], (url, path))
+            push!($(download_calls_ref)[], (url, path))
             write(path, "compressed")
             return nothing
         end
 
         function gunzip(file)
             file = String(file)
-            push!($gunzip_calls_ref[], file)
+            push!($(gunzip_calls_ref)[], file)
             write(replace(file, r"\.gz$" => ""), "decompressed")
             rm(file; force = true)
             return nothing
