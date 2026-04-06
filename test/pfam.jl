@@ -97,7 +97,7 @@ end
             pfam_version = "77.7"
             local_path = joinpath(pfam_dir, pfam_version, basename)
 
-            @testset name begin
+            @testset "$name" begin
                 @test call(pfam_dir, pfam_version) == local_path
                 @test isfile(local_path)
                 @test download_calls == [(Pfam.base_url(; pfam_version) * "/$remote_name", "$local_path.gz", Inf)]
@@ -123,7 +123,7 @@ end
             local_path = joinpath(pfam_dir, "alignment_files", "PF00013.alignment.$which.stk")
             url = "https://www.ebi.ac.uk/interpro/wwwapi/entry/pfam/PF00013/?annotation=alignment:$which&download"
 
-            @testset string(which) begin
+            @testset "$which" begin
                 @test Pfam.alignment_file("PF00013", which; pfam_dir) == local_path
                 @test isfile(local_path)
                 @test download_calls == [(url, "$local_path.gz", Inf)]
