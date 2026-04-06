@@ -8,7 +8,7 @@ const gunzip_calls_ref = Ref(String[])
 function mock_download_helpers!()
     @eval Pfam begin
         function download_progress(url, path; timeout = Inf)
-            push!($download_calls_ref[], (String(url), String(path)))
+            push!($download_calls_ref[], (url, path))
             write(path, "compressed")
             return nothing
         end
@@ -89,22 +89,23 @@ try
             gunzip_calls = gunzip_calls_ref[]
 
             cases = (
-                ("pdbmap", (pfam_dir, pfam_version) -> Pfam.pdbmap(; pfam_dir, pfam_version), "pdbmap", "pdbmap.gz"),
-                ("Pfam_A_hmm_dat", (pfam_dir, pfam_version) -> Pfam.Pfam_A_hmm_dat(; pfam_dir, pfam_version), "Pfam-A.hmm.dat", "Pfam-A.hmm.dat.gz"),
-                ("Pfam_A_hmm", (pfam_dir, pfam_version) -> Pfam.Pfam_A_hmm(; pfam_dir, pfam_version), "Pfam-A.hmm", "Pfam-A.hmm.gz"),
-                ("Pfam_A_seed", (pfam_dir, pfam_version) -> Pfam.Pfam_A_seed(; pfam_dir, pfam_version), "Pfam-A.seed", "Pfam-A.seed.gz"),
-                ("Pfam_A_full", (pfam_dir, pfam_version) -> Pfam.Pfam_A_full(; pfam_dir, pfam_version), "Pfam-A.full", "Pfam-A.full.gz"),
-                ("Pfam_A_fasta", (pfam_dir, pfam_version) -> Pfam.Pfam_A_fasta(; pfam_dir, pfam_version), "Pfam-A.fasta", "Pfam-A.fasta.gz"),
-                ("pfamseq", (pfam_dir, pfam_version) -> Pfam.pfamseq(; pfam_dir, pfam_version), "pfamseq", "pfamseq.gz"),
-                ("uniprot", (pfam_dir, pfam_version) -> Pfam.uniprot(; pfam_dir, pfam_version), "uniprot", "uniprot.gz"),
+                ("pdbmap", (pfam_dir, pfam_version) -> Pfam.pdbmap(; pfam_dir, pfam_version), "pdbmap"),
+                ("Pfam_A_hmm_dat", (pfam_dir, pfam_version) -> Pfam.Pfam_A_hmm_dat(; pfam_dir, pfam_version), "Pfam-A.hmm.dat"),
+                ("Pfam_A_hmm", (pfam_dir, pfam_version) -> Pfam.Pfam_A_hmm(; pfam_dir, pfam_version), "Pfam-A.hmm"),
+                ("Pfam_A_seed", (pfam_dir, pfam_version) -> Pfam.Pfam_A_seed(; pfam_dir, pfam_version), "Pfam-A.seed"),
+                ("Pfam_A_full", (pfam_dir, pfam_version) -> Pfam.Pfam_A_full(; pfam_dir, pfam_version), "Pfam-A.full"),
+                ("Pfam_A_fasta", (pfam_dir, pfam_version) -> Pfam.Pfam_A_fasta(; pfam_dir, pfam_version), "Pfam-A.fasta"),
+                ("pfamseq", (pfam_dir, pfam_version) -> Pfam.pfamseq(; pfam_dir, pfam_version), "pfamseq"),
+                ("uniprot", (pfam_dir, pfam_version) -> Pfam.uniprot(; pfam_dir, pfam_version), "uniprot"),
             )
 
-            for (name, call, basename, remote_name) in cases
+            for (name, call, basename) in cases
                 empty!(download_calls)
                 empty!(gunzip_calls)
                 pfam_dir = mktempdir()
                 pfam_version = "77.7"
                 local_path = joinpath(pfam_dir, pfam_version, basename)
+                remote_name = "$basename.gz"
 
                 @testset "$name" begin
                     @test call(pfam_dir, pfam_version) == local_path
